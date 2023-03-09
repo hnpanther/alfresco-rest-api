@@ -1,5 +1,7 @@
 package com.hnp.alfrescorestapi;
 
+import com.hnp.alfrescorestapi.configuration.AlfrescoConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,11 +16,17 @@ public class AlfrescoRestApiApplication implements CommandLineRunner {
         SpringApplication.run(AlfrescoRestApiApplication.class, args);
     }
 
+    @Autowired
+    private AlfrescoConfiguration alfrescoConfiguration;
+
     @Override
     public void run(String... args) throws Exception {
+
+
         WebClient client = WebClient.builder()
-                .baseUrl("http://localhost:8080/alfresco/api/-default-/public/alfresco/versions/1")
-                .defaultHeaders(header -> header.setBasicAuth("admin", "admin"))
+                .baseUrl(alfrescoConfiguration.getApiUrl())
+                .defaultHeaders(header ->
+                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
                 .build();
 
         WebClient.ResponseSpec s = client.get().uri("/nodes/-my-/children")
