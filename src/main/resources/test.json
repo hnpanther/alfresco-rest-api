@@ -1,0 +1,193 @@
+{
+  "list": {
+    "pagination": {
+      "count": 9,
+      "hasMoreItems": false,
+      "totalItems": 9,
+      "skipCount": 0,
+      "maxItems": 100
+    },
+    "entries": [
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:33.873+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:49.545+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "Data Dictionary",
+          "id": "7425c416-46e9-4bf8-acda-1d9f5525c68f",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:34.232+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:34.232+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "Guest Home",
+          "id": "c3e46f25-1d10-4c6a-a6bb-39ccc00ce2ff",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:34.357+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:34.357+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "Imap Attachments",
+          "id": "811e1ece-7907-4007-ac81-73acd820a699",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:34.357+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:34.357+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "IMAP Home",
+          "id": "d7dd7d1b-b2a4-4051-abed-2da5089b3fc6",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-25T08:17:53.453+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "admin",
+            "displayName": "Administrator"
+          },
+          "modifiedAt": "2023-02-26T08:29:21.631+0000",
+          "modifiedByUser": {
+            "id": "admin",
+            "displayName": "Administrator"
+          },
+          "name": "My Folder Rest",
+          "id": "cf6ec19f-b520-4c79-88a5-55de9bad1c9c",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:34.310+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:34.310+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "Shared",
+          "id": "cd597642-5cb8-4f78-831b-100dae510843",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:38.342+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:35:47.061+0000",
+          "modifiedByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "name": "Sites",
+          "id": "cf75d1a2-ee3c-4649-868d-d4a4cf51ba0b",
+          "nodeType": "st:sites",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:44:25.250+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "admin",
+            "displayName": "Administrator"
+          },
+          "modifiedAt": "2023-02-26T08:30:20.389+0000",
+          "modifiedByUser": {
+            "id": "admin",
+            "displayName": "Administrator"
+          },
+          "name": "software_group",
+          "id": "4c123f17-2716-4c5a-9ab4-ad3022b26f7c",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      },
+      {
+        "entry": {
+          "createdAt": "2023-02-11T08:35:34.294+0000",
+          "isFolder": true,
+          "isFile": false,
+          "createdByUser": {
+            "id": "System",
+            "displayName": "System"
+          },
+          "modifiedAt": "2023-02-11T08:43:16.478+0000",
+          "modifiedByUser": {
+            "id": "admin",
+            "displayName": "Administrator"
+          },
+          "name": "User Homes",
+          "id": "04ebecee-132f-4c48-ac58-525467965bc8",
+          "nodeType": "cm:folder",
+          "parentId": "2a0ccd3d-53bd-4cf1-952e-a7ee3f834909"
+        }
+      }
+    ]
+  }
+}
