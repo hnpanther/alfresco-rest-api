@@ -3,17 +3,16 @@ package com.hnp.alfrescorestapi.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 public class Entry {
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
     @JsonProperty("isFolder")
     private boolean isFolder;
     @JsonProperty("isFile")
     private boolean isFile;
     private User createdByUser;
-    private Date modifiedAt;
+    private LocalDateTime modifiedAt;
     private User modifiedByUser;
     private String name;
     private String id;
@@ -22,11 +21,11 @@ public class Entry {
 
     public Entry(){}
 
-    public Date getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -54,11 +53,11 @@ public class Entry {
         this.createdByUser = createdByUser;
     }
 
-    public Date getModifiedAt() {
+    public LocalDateTime getModifiedAt() {
         return modifiedAt;
     }
 
-    public void setModifiedAt(Date modifiedAt) {
+    public void setModifiedAt(LocalDateTime modifiedAt) {
         this.modifiedAt = modifiedAt;
     }
 
@@ -100,5 +99,21 @@ public class Entry {
 
     public void setParentId(String parentId) {
         this.parentId = parentId;
+    }
+
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "createdAt=" + createdAt +
+                ", isFolder=" + isFolder +
+                ", isFile=" + isFile +
+                ", createdByUser=" + createdByUser +
+                ", modifiedAt=" + modifiedAt +
+                ", modifiedByUser=" + modifiedByUser +
+                ", name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                ", nodeType='" + nodeType + '\'' +
+                ", parentId='" + parentId + '\'' +
+                '}';
     }
 }

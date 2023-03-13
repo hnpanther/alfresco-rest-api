@@ -53,4 +53,15 @@ public class Pagination {
     public void setMaxItems(int maxItems) {
         this.maxItems = maxItems;
     }
+
+    @Override
+    public String toString() {
+        return "Pagination{" +
+                "count=" + count +
+                ", hasMoreItems=" + hasMoreItems +
+                ", totalItems=" + totalItems +
+                ", skipCount=" + skipCount +
+                ", maxItems=" + maxItems +
+                '}';
+    }
 }

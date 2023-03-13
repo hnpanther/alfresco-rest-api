@@ -24,4 +24,12 @@ public class User {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", displayName='" + displayName + '\'' +
+                '}';
+    }
 }
