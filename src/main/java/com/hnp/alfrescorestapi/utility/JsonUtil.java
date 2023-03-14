@@ -20,17 +20,13 @@ import java.util.List;
 public class JsonUtil {
 
 
-    private Logger logger = LoggerFactory.getLogger(JsonUtil.class);
+    private final Logger logger = LoggerFactory.getLogger(JsonUtil.class);
 
 
-    public NodeChildren jsonParserNodeChildren(String inputJson) {
+    public NodeChildren jsonParserNodeChildren(String inputJson) throws JsonProcessingException {
 
-        JsonNode jsonNode = null;
-        try {
-            jsonNode = new ObjectMapper().readTree(inputJson);
-        } catch (JsonProcessingException e) {
-            logger.error("JsonProcessingException at JsonUtil.jsonParserNodeChildren", e);
-        }
+
+        JsonNode jsonNode = new ObjectMapper().readTree(inputJson);
         JsonNode listNode = jsonNode.get("list");
         JsonNode paginationNode = listNode.get("pagination");
         Pagination pagination = new Pagination();

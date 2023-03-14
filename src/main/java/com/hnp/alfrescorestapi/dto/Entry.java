@@ -1,15 +1,13 @@
 package com.hnp.alfrescorestapi.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.LocalDateTime;
 
 public class Entry {
 
     private LocalDateTime createdAt;
-    @JsonProperty("isFolder")
+
     private boolean isFolder;
-    @JsonProperty("isFile")
+
     private boolean isFile;
     private User createdByUser;
     private LocalDateTime modifiedAt;

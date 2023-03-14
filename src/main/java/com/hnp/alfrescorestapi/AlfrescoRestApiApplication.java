@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 @SpringBootApplication
 public class AlfrescoRestApiApplication implements CommandLineRunner {
@@ -26,23 +24,7 @@ public class AlfrescoRestApiApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        WebClient client = WebClient.builder()
-                .baseUrl(alfrescoConfiguration.getApiUrl())
-                .defaultHeaders(header ->
-                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
-                .build();
 
-        try {
-
-            WebClient.ResponseSpec responseSpec = client.get().uri("/nodes/-my-/children")
-                    .retrieve();
-            Mono<String> listMono = responseSpec.bodyToMono(String.class);
-            String block = listMono.block();
-            jsonUtil.jsonParserNodeChildren(block);
-        } catch (Exception e) {
-            System.out.println("alfresco not available");
-
-        }
 
 
 
