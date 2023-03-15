@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
@@ -17,8 +19,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 
 @Service
@@ -160,20 +160,26 @@ public class NodeService {
 
     }
 
-    public  File convert(MultipartFile file)
-    {
-        File convFile = new File(file.getOriginalFilename());
-        try {
-            convFile.createNewFile();
-            FileOutputStream fos = new FileOutputStream(convFile);
-            fos.write(file.getBytes());
-            fos.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
 
-        return convFile;
+
+    public Mono<ResponseEntity<byte[]>> downloadFile(String nodeId, String fileName) throws Exception {
+
+        WebClient client = WebClient.builder()
+                .baseUrl(alfrescoConfiguration.getApiUrl())
+                .defaultHeaders(header ->
+                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+                .build();
+
+        WebClient.ResponseSpec responseSpec = client.get().uri(builder -> builder.path("/nodes/" + nodeId + "/content").build())
+                .accept(MediaType.APPLICATION_OCTET_STREAM) // for test
+                .retrieve();
+
+        return responseSpec.bodyToMono(byte[].class)
+                .map(body -> ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName)
+                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                        .body(body));
+
     }
 
 }

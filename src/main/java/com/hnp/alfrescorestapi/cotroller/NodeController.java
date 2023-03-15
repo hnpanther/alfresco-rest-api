@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 
@@ -95,6 +96,22 @@ public class NodeController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
+
+
+
+    @GetMapping("node/{fileName}/{nodeId}")
+    public Mono<ResponseEntity<byte[]>> donwloadFile(@PathVariable String nodeId, @PathVariable String fileName) {
+
+        try {
+            return this.nodeService.downloadFile(nodeId, fileName);
+        } catch (Exception e) {
+            return Mono.just(ResponseEntity.status(404)
+                    .body(null));
+
+        }
+
+
     }
 
 
