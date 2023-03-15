@@ -7,11 +7,19 @@ import com.hnp.alfrescorestapi.utility.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
+import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @Service
 public class NodeService {
@@ -26,7 +34,6 @@ public class NodeService {
 
     public String createDirectory(RequestCreateNode requestCreateNode) throws  JsonProcessingException {
 
-        System.out.println(requestCreateNode);
         NodeSearch nodeSearch = new NodeSearch();
         nodeSearch.setParentId(requestCreateNode.getParentId());
         nodeSearch.setType("cm:folder");
@@ -54,10 +61,9 @@ public class NodeService {
                 .retrieve();
 
         Mono<String> stringMono = responseSpec.bodyToMono(String.class);
-        System.out.println(stringMono.block());
-        //add WebClientResponseException.Conflict ...
+        String newFolder = stringMono.block();
 
-        return "ok";
+        return newFolder;
     }
 
 
@@ -88,7 +94,7 @@ public class NodeService {
                 .defaultHeaders(header ->
                         header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
                 .build();
-        System.out.println(nodeSearch);
+
         WebClient.ResponseSpec responseSpec = client.get().uri(
                         builder -> builder.path("/queries/nodes")
                                 .queryParam("term", nodeSearch.getTitle())
@@ -98,9 +104,11 @@ public class NodeService {
                 )
                 .retrieve();
         try {
+
             Mono<String> listMono = responseSpec.bodyToMono(String.class);
             String response = listMono.block();
             NodeChildren nodeChildren = jsonUtil.jsonParserNodeChildren(response);
+
             for(Entry entry: nodeChildren.getEntries()) {
                 if(entry.getParentId().equals(nodeSearch.getParentId()) && entry.getName().equals(nodeSearch.getTitle())) {
                     return true;
@@ -114,8 +122,58 @@ public class NodeService {
     }
 
 
-    public void test(String rootNodeId) {
+    public String uploadFile(MultipartFile file, String parentId, String fileName) throws IOException {
 
+        NodeSearch nodeSearch = new NodeSearch();
+        nodeSearch.setParentId(parentId);
+        nodeSearch.setType("cm:content");
+        nodeSearch.setTitle(fileName);
+        boolean check = checkNodeExists(nodeSearch);
+
+        if(check) {
+            return null;
+        }
+
+
+        MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+        multipartBodyBuilder.part("filedata", file.getBytes()).filename(file.getOriginalFilename());
+        MultiValueMap<String, HttpEntity<?>> parts = multipartBodyBuilder.build();
+
+        WebClient client = WebClient.builder()
+                .baseUrl(alfrescoConfiguration.getApiUrl())
+                .defaultHeaders(header ->
+                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+                .build();
+
+        WebClient.ResponseSpec responseSpec = client.post().uri(
+                        builder -> builder.path("/nodes/" + parentId + "/children").build()
+                )
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .bodyValue(parts)
+                .retrieve();
+
+        Mono<String> stringMono = responseSpec.bodyToMono(String.class);
+        String newFile = stringMono.block();
+
+        return newFile;
+
+
+    }
+
+    public  File convert(MultipartFile file)
+    {
+        File convFile = new File(file.getOriginalFilename());
+        try {
+            convFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(convFile);
+            fos.write(file.getBytes());
+            fos.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return convFile;
     }
 
 }

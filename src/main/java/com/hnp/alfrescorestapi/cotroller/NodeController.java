@@ -12,7 +12,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import java.io.IOException;
 
 @RestController
 public class NodeController {
@@ -26,13 +29,18 @@ public class NodeController {
     private final Logger logger = LoggerFactory.getLogger(NodeController.class);
 
 
-    @PostMapping("create-directory")
-    public void createDirectory(@RequestBody RequestCreateNode requestCreateNode) {
+    @PostMapping("node/directory")
+    public ResponseEntity<String> createDirectory(@RequestBody RequestCreateNode requestCreateNode) {
 
         try {
-            this.nodeService.createDirectory(requestCreateNode);
+
+            String created = this.nodeService.createDirectory(requestCreateNode);
+            if(created == null) {
+                return ResponseEntity.status(409).build();
+            }
+            return ResponseEntity.ok().body(created);
         } catch (WebClientResponseException.NotFound | JsonProcessingException e) {
-            throw new RuntimeException(e);
+            return ResponseEntity.badRequest().build();
         }
 
     }
@@ -74,9 +82,19 @@ public class NodeController {
 
     }
 
-    @GetMapping("/test")
-    public void test() {
-        this.nodeService.test("1");
+    @PostMapping("node/file")
+    public ResponseEntity<String> uploadFile(@RequestPart("filedata") MultipartFile file, @RequestParam("parentId") String parentId) {
+
+        try {
+            String created = this.nodeService.uploadFile(file, parentId, file.getOriginalFilename());
+            if(created == null) {
+                return ResponseEntity.status(409).build();
+            }
+            return ResponseEntity.ok().body(created);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 
