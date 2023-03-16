@@ -28,6 +28,9 @@ public class NodeService {
     private AlfrescoConfiguration alfrescoConfiguration;
 
     @Autowired
+    private WebClient client;
+
+    @Autowired
     private JsonUtil jsonUtil;
 
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
@@ -48,11 +51,11 @@ public class NodeService {
         createNode.setNodeType("cm:folder");
         createNode.setName(requestCreateNode.getName());
 
-        WebClient client = WebClient.builder()
-                .baseUrl(alfrescoConfiguration.getApiUrl())
-                .defaultHeaders(header ->
-                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
-                .build();
+//        WebClient client = WebClient.builder()
+//                .baseUrl(alfrescoConfiguration.getApiUrl())
+//                .defaultHeaders(header ->
+//                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+//                .build();
 
         WebClient.ResponseSpec responseSpec = client.post().uri(
                         builder -> builder.path("/nodes/" + requestCreateNode.getParentId() + "/children").build()
@@ -89,11 +92,11 @@ public class NodeService {
     }
 
     public boolean checkNodeExists(NodeSearch nodeSearch) throws JsonProcessingException {
-        WebClient client = WebClient.builder()
-                .baseUrl(alfrescoConfiguration.getApiUrl())
-                .defaultHeaders(header ->
-                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
-                .build();
+//        WebClient client = WebClient.builder()
+//                .baseUrl(alfrescoConfiguration.getApiUrl())
+//                .defaultHeaders(header ->
+//                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+//                .build();
 
         WebClient.ResponseSpec responseSpec = client.get().uri(
                         builder -> builder.path("/queries/nodes")
@@ -139,11 +142,11 @@ public class NodeService {
         multipartBodyBuilder.part("filedata", file.getBytes()).filename(file.getOriginalFilename());
         MultiValueMap<String, HttpEntity<?>> parts = multipartBodyBuilder.build();
 
-        WebClient client = WebClient.builder()
-                .baseUrl(alfrescoConfiguration.getApiUrl())
-                .defaultHeaders(header ->
-                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
-                .build();
+//        WebClient client = WebClient.builder()
+//                .baseUrl(alfrescoConfiguration.getApiUrl())
+//                .defaultHeaders(header ->
+//                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+//                .build();
 
         WebClient.ResponseSpec responseSpec = client.post().uri(
                         builder -> builder.path("/nodes/" + parentId + "/children").build()
@@ -164,11 +167,11 @@ public class NodeService {
 
     public Mono<ResponseEntity<byte[]>> downloadFile(String nodeId, String fileName) throws Exception {
 
-        WebClient client = WebClient.builder()
-                .baseUrl(alfrescoConfiguration.getApiUrl())
-                .defaultHeaders(header ->
-                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
-                .build();
+//        WebClient client = WebClient.builder()
+//                .baseUrl(alfrescoConfiguration.getApiUrl())
+//                .defaultHeaders(header ->
+//                        header.setBasicAuth(alfrescoConfiguration.getApiUsername(), alfrescoConfiguration.getApiPassword()))
+//                .build();
 
         WebClient.ResponseSpec responseSpec = client.get().uri(builder -> builder.path("/nodes/" + nodeId + "/content").build())
                 .accept(MediaType.APPLICATION_OCTET_STREAM) // for test
