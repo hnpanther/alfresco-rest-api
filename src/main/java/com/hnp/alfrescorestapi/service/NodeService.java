@@ -35,7 +35,8 @@ public class NodeService {
 
     private final Logger logger = LoggerFactory.getLogger(NodeService.class);
 
-    public String createDirectory(RequestCreateNode requestCreateNode) throws  JsonProcessingException {
+    public String createDirectory(RequestCreateNode requestCreateNode) throws  WebClientResponseException.Forbidden
+            , JsonProcessingException {
 
         NodeSearch nodeSearch = new NodeSearch();
         nodeSearch.setParentId(requestCreateNode.getParentId());
@@ -71,7 +72,9 @@ public class NodeService {
 
 
 
-    public NodeChildren getNodeList(String rootNodeId) throws WebClientResponseException.NotFound, JsonProcessingException {
+    public NodeChildren getNodeList(String rootNodeId) throws WebClientResponseException.Forbidden
+            , WebClientResponseException.NotFound
+            , JsonProcessingException {
         WebClient client = WebClient.builder()
                 .baseUrl(alfrescoConfiguration.getApiUrl())
                 .defaultHeaders(header ->
@@ -91,7 +94,8 @@ public class NodeService {
         return nodeChildren;
     }
 
-    public boolean checkNodeExists(NodeSearch nodeSearch) throws JsonProcessingException {
+    public boolean checkNodeExists(NodeSearch nodeSearch) throws WebClientResponseException.Forbidden
+            , JsonProcessingException {
 //        WebClient client = WebClient.builder()
 //                .baseUrl(alfrescoConfiguration.getApiUrl())
 //                .defaultHeaders(header ->
@@ -125,7 +129,8 @@ public class NodeService {
     }
 
 
-    public String uploadFile(MultipartFile file, String parentId, String fileName) throws IOException {
+    public String uploadFile(MultipartFile file, String parentId, String fileName) throws IOException
+            , WebClientResponseException.Forbidden {
 
         NodeSearch nodeSearch = new NodeSearch();
         nodeSearch.setParentId(parentId);

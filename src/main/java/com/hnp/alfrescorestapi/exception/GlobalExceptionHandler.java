@@ -39,4 +39,19 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(503).body(generealResponse);
     }
+
+    @ExceptionHandler(value = {CustomForbiddenException.class, CustomForbiddenException.class})
+    public ResponseEntity<Object> handleCustomForbiddenException(Exception e) {
+        logger.error("exception handler: " +e.getMessage(), e);
+
+        GenerealResponse generealResponse = new GenerealResponse();
+        generealResponse.setDescription("please contact your system administrator");
+        generealResponse.setStatus(403);
+        generealResponse.setTimeStamp(LocalDateTime.now());
+
+        return ResponseEntity.status(403).body(generealResponse);
+    }
+
+
+
 }

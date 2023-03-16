@@ -5,6 +5,7 @@ import com.hnp.alfrescorestapi.configuration.AlfrescoConfiguration;
 import com.hnp.alfrescorestapi.dto.NodeChildren;
 import com.hnp.alfrescorestapi.dto.NodeSearch;
 import com.hnp.alfrescorestapi.dto.RequestCreateNode;
+import com.hnp.alfrescorestapi.exception.CustomForbiddenException;
 import com.hnp.alfrescorestapi.service.NodeService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -40,7 +41,10 @@ public class NodeController {
                 return ResponseEntity.status(409).build();
             }
             return ResponseEntity.ok().body(created);
-        } catch (WebClientResponseException.NotFound | JsonProcessingException e) {
+        } catch (WebClientResponseException.NotFound | WebClientResponseException.Forbidden | JsonProcessingException e) {
+            if(e instanceof WebClientResponseException.Forbidden) {
+                throw new CustomForbiddenException();
+            }
             return ResponseEntity.badRequest().build();
         }
 
@@ -53,7 +57,11 @@ public class NodeController {
         try {
             NodeChildren nodeChildren = this.nodeService.getNodeList(rootNodeId);
             return ResponseEntity.ok().body(nodeChildren);
-        } catch (WebClientResponseException.NotFound | JsonProcessingException e) {
+        } catch (WebClientResponseException.NotFound | WebClientResponseException.Forbidden | JsonProcessingException e) {
+
+            if(e instanceof WebClientResponseException.Forbidden) {
+                throw new CustomForbiddenException();
+            }
 
             if(e instanceof WebClientResponseException.NotFound) {
                 logger.info("rootNodeId Not Found, rootNodeId=" + rootNodeId, e);
@@ -76,7 +84,12 @@ public class NodeController {
                 return ResponseEntity.ok().build();
             }
             return ResponseEntity.notFound().build();
-        } catch (JsonProcessingException e) {
+        } catch (JsonProcessingException | WebClientResponseException.Forbidden e) {
+
+            if(e instanceof WebClientResponseException.Forbidden) {
+                throw new CustomForbiddenException();
+            }
+
             logger.warn("can not parsing response with rootNodeId=" + nodeSearch.getParentId(), e);
             return ResponseEntity.badRequest().build();
         }
@@ -92,8 +105,12 @@ public class NodeController {
                 return ResponseEntity.status(409).build();
             }
             return ResponseEntity.ok().body(created);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException | WebClientResponseException.Forbidden e) {
+
+            if(e instanceof WebClientResponseException.Forbidden) {
+                throw new CustomForbiddenException();
+            }
+            logger.error("exception handler: " +e.getMessage(), e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -106,6 +123,10 @@ public class NodeController {
         try {
             return this.nodeService.downloadFile(nodeId, fileName);
         } catch (Exception e) {
+
+            if(e instanceof WebClientResponseException.Forbidden) {
+                throw new CustomForbiddenException();
+            }
             return Mono.just(ResponseEntity.status(404)
                     .body(null));
 
