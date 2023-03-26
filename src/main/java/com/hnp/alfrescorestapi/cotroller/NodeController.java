@@ -33,7 +33,7 @@ public class NodeController {
 
     @PostMapping("node/directory")
     public ResponseEntity<String> createDirectory(@RequestBody RequestCreateNode requestCreateNode) {
-
+        logger.info("call node/directory");
         try {
 
             String created = this.nodeService.createDirectory(requestCreateNode);
@@ -53,7 +53,7 @@ public class NodeController {
 
     @GetMapping("/node/list/{rootNodeId}")
     public ResponseEntity<NodeChildren> getNodeList(@PathVariable String rootNodeId) {
-
+        logger.info("call /node/list/{rootNodeId}");
         try {
             NodeChildren nodeChildren = this.nodeService.getNodeList(rootNodeId);
             return ResponseEntity.ok().body(nodeChildren);
@@ -78,6 +78,7 @@ public class NodeController {
 
     @GetMapping("/node/checkExists")
     public ResponseEntity checkNodeExists(@RequestBody @Valid NodeSearch nodeSearch) {
+        logger.info("call /node/checkExists");
         try {
             boolean check = this.nodeService.checkNodeExists(nodeSearch);
             if(check) {
@@ -98,7 +99,7 @@ public class NodeController {
 
     @PostMapping("node/file")
     public ResponseEntity<String> uploadFile(@RequestPart("filedata") MultipartFile file, @RequestParam("parentId") String parentId) {
-
+        logger.info("call node/file");
         try {
             String created = this.nodeService.uploadFile(file, parentId, file.getOriginalFilename());
             if(created == null) {
@@ -119,7 +120,7 @@ public class NodeController {
 
     @GetMapping("node/{fileName}/{nodeId}")
     public Mono<ResponseEntity<byte[]>> donwloadFile(@PathVariable String nodeId, @PathVariable String fileName) {
-
+        logger.info("call node/{fileName}/{nodeId}");
         try {
             return this.nodeService.downloadFile(nodeId, fileName);
         } catch (Exception e) {

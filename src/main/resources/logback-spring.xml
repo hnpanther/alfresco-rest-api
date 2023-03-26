@@ -1,30 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <property name="DIRECTORY" value="/tmp" />
+
+
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss.sss}][%-5p][%C][%t][%L]%m%n
-            </pattern>
+<!--            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0}[%M:%L] - %msg%n</pattern>-->
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
         </encoder>
     </appender>
 
-    <appender name="FILE"
-              class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${DIRECTORY}/logfile.log</file>
-        <rollingPolicy
-                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <!-- rollover daily -->
-            <fileNamePattern>${DIRECTORY}/%d{yyyy/MM/dd, aux}/logfile-%d{yyyy-MM-dd}.%i.log
-            </fileNamePattern>
-            <maxFileSize>50MB</maxFileSize>
+    <appender name="ROTATE_FILE_DAILY" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>app-%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
         <encoder>
-            <pattern>[%d{yyyy-MM-dd HH:mm:ss}][%-5p][%C][%t][%L]%m%n
-            </pattern>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0}[%M:%L] - %msg%n</pattern>
         </encoder>
     </appender>
-    <root level="info">
-        <appender-ref ref="FILE" />
-        <appender-ref ref="STDOUT" />
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="ROTATE_FILE_DAILY"/>
     </root>
 </configuration>
